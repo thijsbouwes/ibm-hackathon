@@ -1,6 +1,6 @@
 http = require('http');
 var fs = require('fs');
-var path = require('path');
+var p = require('path');
 
 //create a server object:
 http.createServer(function (req, res) {
@@ -12,7 +12,7 @@ http.createServer(function (req, res) {
         path += req.url;
     }
 
-    var extname = path.extname(path);
+    var extname = p.extname(path);
     var contentType = 'text/html';
     switch (extname) {
         case '.js':
@@ -29,7 +29,7 @@ http.createServer(function (req, res) {
             break;
     }
 
-    const content = fs.readFileSync(path);
+    var content = fs.readFileSync(path);
 
     res.writeHead(200, {'Content-Type': contentType});
     res.write(content); //write a response to the client
