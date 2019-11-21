@@ -6,9 +6,9 @@
       </div>
 
       <div v-for="product in products" class="col-md-3 mb-4 product" @click="open(product)">
-        <img src="https://via.placeholder.com/300.png" style="max-width: 100%;">
-        <h4 class="text-center mt-3">{{ product.CA_DESCRIPTION }}</h4>
-        <span class="d-block text-center price">{{ product.CA_COST | money }}</span>
+        <img :src="'/images/' + product.CA_DESCRIPTION.split(' ')[0] + '.png'" style="max-width: 100%;">
+        <h4 class="text-center mt-3 mb-0">{{ product.CA_DESCRIPTION }}</h4>
+        <span class="d-block text-center price">$ {{ product.CA_COST | money }}</span>
       </div>
     </div>
   </div>
@@ -24,6 +24,7 @@ export default {
 
   filters: {
     money: function (value) {
+      if (value === undefined) { return null }
       value = parseFloat(value);
       return value.toFixed(2);
     }
@@ -71,5 +72,11 @@ export default {
           transform: scale(1.05);
         }
      }
+  }
+
+  .price {
+    color: #3c89ff;
+    font-size: 2rem;
+    font-weight: 900;
   }
 </style>

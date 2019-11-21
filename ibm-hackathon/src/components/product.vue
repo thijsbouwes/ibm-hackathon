@@ -9,13 +9,13 @@
 
           <div v-if="!isLoading">
             <div class="d-flex justify-content-center">
-              <img src="https://via.placeholder.com/300.png" style="max-width: 100%;">
+              <img :src="'/images/' + product.CA_DESCRIPTION.split(' ')[0] + '.png'" style="max-width: 100%;">
             </div>
-            <h2 class="mt-4 mb-3">{{ product.description }}</h2>
+            <h2 class="mt-4 mb-3">{{ product.CA_DESCRIPTION }}</h2>
 
             <div class="d-flex justify-content-between">
-              <span class="price">$ {{ product.cost | money }}</span>
-              <span class="stock">Stock: {{ product.stock }}</span>
+              <span class="price">$ {{ product.CA_COST | money }}</span>
+              <span class="stock">Stock: {{ product.IN_STOCK }}</span>
             </div>
           </div>
         </div>
@@ -35,34 +35,31 @@
 export default {
   data() {
     return {
-      isLoading: true,
+      isLoading: false,
       product: null,
     }
   },
 
   filters: {
     money: function (value) {
+      if (value === undefined) { return null }
+      value = parseFloat(value);
       return value.toFixed(2);
     }
   },
 
   mounted() {
     EventBus.$on('product', product => {
-      this.isLoading = true;
       this.product = product;
 
       let $ = JQuery;
       $('#product').modal('show');
-
-      setTimeout(() => {
-        this.isLoading = false;
-      }, 200);
     });
   },
 
   methods: {
     order: function () {
-      this.product.stock -= 1;
+      this.product.IN_STOCK -= 1;
       EventBus.$emit('order', this.product);
     }
   }

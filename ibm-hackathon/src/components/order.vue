@@ -7,9 +7,9 @@
     </div>
     <div class="row">
       <div class="col-12 d-flex align-items-center mb-3" v-for="(product, ref) in products">
-        <img src="https://via.placeholder.com/100.png" class="mr-3" style="max-width: 100%;">
-        <h3 class="flex-grow-1">{{ product.description }}</h3>
-        <span class="price">$ {{ product.cost | money }}</span>
+        <img :src="'/images/' + product.CA_DESCRIPTION.split(' ')[0] + '.png'" style="max-width: 100%; max-height: 100px;" class="mr-4">
+        <h3 class="flex-grow-1">{{ product.CA_DESCRIPTION }}</h3>
+        <span class="price">$ {{ product.CA_COST | money }}</span>
         <span class="quantity ml-4">{{ product.quantity }}</span>
       </div>
 
@@ -31,6 +31,8 @@ export default {
 
   filters: {
     money: function (value) {
+      if (value === undefined) { return null }
+      value = parseFloat(value);
       return value.toFixed(2);
     }
   },
@@ -44,32 +46,21 @@ export default {
     }
   },
 
-  computed: {
-      totalPrice: function() {
-        let total = 0;
-        Object.keys(this.products).forEach(key => {
-          const product = this.products[key];
-          total += parseFloat(product.cost) * product.quantity;
-        });
-        return total;
-      }
-  },
-
   mounted() {
     EventBus.$on('order', product => {
-      if (product.itemRef in this.products) {
-        let p = this.products[product.itemRef];
+      if (product.CA_ITEM_REF in this.products) {
+        let p = this.products[product.CA_ITEM_REF];
         p.quantity += 1;
-        this.$set(this.products, product.itemRef, p);
+        this.$set(this.products, product.CA_ITEM_REF, p);
       } else {
         product.quantity = 1;
-        this.$set(this.products, product.itemRef, product);
+        this.$set(this.products, product.CA_ITEM_REF, product);
       }
 
       let total = 0;
       Object.keys(this.products).forEach(key => {
         const product = this.products[key];
-        total += parseFloat(product.cost) * product.quantity;
+        total += parseFloat(parseFloat(product.CA_COST)) * product.quantity;
       });
       this.total = total;
 
@@ -93,6 +84,7 @@ export default {
   }
   .quantity {
     font-size: 2rem;
+    font-weight: 900;
   }
   .total {
     font-size: 2rem;
