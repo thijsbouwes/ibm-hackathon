@@ -7,7 +7,7 @@
     </div>
     <div class="row">
       <div class="col-12 d-flex align-items-center mb-3" v-for="(product, ref) in products">
-        <img :src="'/images/' + product.CA_DESCRIPTION.split(' ')[0] + '.png'" style="max-width: 100%; max-height: 100px;" class="mr-4">
+        <img :src="'/images/' + product.CA_DESCRIPTION.split(' ')[0].toLowerCase() + '.jpg'" style="max-width: 100%; max-height: 100px;" class="mr-4">
         <h3 class="flex-grow-1">{{ product.CA_DESCRIPTION }}</h3>
         <span class="price">$ {{ product.CA_COST | money }}</span>
         <span class="quantity ml-4">{{ product.quantity }}</span>
@@ -88,5 +88,9 @@ export default {
   }
   .total {
     font-size: 2rem;
+  }
+  img {
+    height: 200px;
+    object-fit: cover;
   }
 </style>
