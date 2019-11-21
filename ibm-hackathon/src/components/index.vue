@@ -33,29 +33,37 @@ export default {
   data() {
     return {
       isActive: this.active,
+      offset: 0,
       products: [],
     }
   },
 
   mounted() {
-    EventBus.$on('page', page => {
-      if (page === 'index') {
-        this.isActive = true;
-      } else {
-        this.isActive = false;
-      }
-    });
-
-    axios.request('/catalogManager4/items?offset=0').then(response => {
-      console.log(response);
-      this.products = response.data.DFH0XCP1.CA_INQUIRE_REQUEST.CA_CAT_ITEM;
-      console.log(this.products);
-    });
+    this.request();
   },
 
   methods: {
     open: function(product) {
       EventBus.$emit('product', product);
+    },
+    prev: function() {
+      this.offset = (this.offset - 15 > 0 ? this.offset - 15 : 0);
+      this.request();
+    },
+    next: function() {
+      this.offset  = this.offset + 15;
+      this.request();
+    },
+    request: function() {
+      axios.request('/catalogManager4/items?offset=' + this.offset).then(response => {
+        console.log(response);
+        this.products = response.data.DFH0XCP1.CA_INQUIRE_REQUEST.CA_CAT_ITEM;
+        this.isActive = false;
+        this.$nextTick(() => {
+          this.isActive = true;
+        });
+        console.log(this.products);
+      });
     }
   }
 }
