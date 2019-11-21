@@ -51,9 +51,10 @@ http.createServer(function (request, response) {
         }
         else {
             response.writeHead(200, { 'Content-Type': contentType });
-            response.end(content, 'utf-8');
+            response.write(content, 'utf-8');
+            response.end();
         }
     });
 
-}).listen(8125);
-console.log('Server running at http://127.0.0.1:8125/');
+}).listen(8080);
+console.log('Server running at http://127.0.0.1:8080/');
