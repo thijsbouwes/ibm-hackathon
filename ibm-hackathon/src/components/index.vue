@@ -35,8 +35,6 @@ export default {
   },
 
   mounted() {
-    this.request();
-
     axios.request('/catalogManager4/items?offset=0').then(response => {
       // console.log(response);
       this.products = response.data.DFH0XCP1.CA_INQUIRE_REQUEST.CA_CAT_ITEM;
