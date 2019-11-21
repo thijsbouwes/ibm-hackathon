@@ -1,11 +1,7 @@
 <template>
-  <div class="container" v-if="isActive">
+  <div class="container" v-if="isActive" style="margin-top: 50px;">
     <div v-if="products !== null" class="row">
-      <div class="col-12 text-center mt-4 mb-4">
-        <h1>Mainframe Shop</h1>
-      </div>
-
-      <div v-for="product in products" class="col-md-3 mb-4 product" @click="open(product)">
+      <div v-for="product in products" class="col-md-4 mb-4 product" @click="open(product)">
         <img :src="'/images/' + product.CA_DESCRIPTION.split(' ')[0].toLowerCase() + '.jpg'" style="max-width: 100%;">
         <h4 class="text-center mt-3 mb-0">{{ product.CA_DESCRIPTION }}</h4>
         <span class="d-block text-center price">$ {{ product.CA_COST | money }}</span>
@@ -47,9 +43,9 @@ export default {
     });
 
     axios.request('/catalogManager4/items?offset=0').then(response => {
-      console.log(response);
+      // console.log(response);
       this.products = response.data.DFH0XCP1.CA_INQUIRE_REQUEST.CA_CAT_ITEM;
-      console.log(this.products);
+      // console.log(this.products);
     });
   },
 
