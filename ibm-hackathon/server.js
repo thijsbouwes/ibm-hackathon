@@ -13,6 +13,11 @@ http.createServer(function (req, res) {
     }
 
     var extname = p.extname(path);
+
+    if (extname !== '.js' && extname !== '.css' && extname !== '.png' && extname !== '.jpg' && extname !== '.html') {
+        return;
+    }
+
     var contentType = 'text/html';
     switch (extname) {
         case '.js':
