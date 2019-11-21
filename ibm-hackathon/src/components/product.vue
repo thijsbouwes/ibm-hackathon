@@ -2,16 +2,16 @@
   <div class="modal" tabindex="-1" role="dialog" id="product">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
-        <div class="modal-body">
+        <div class="modal-body" v-if="product">
           <div class="d-flex justify-content-center" v-if="isLoading">
             <img src="/images/loading.gif" style="max-width: 100%">
           </div>
 
           <div v-if="!isLoading">
             <div class="d-flex justify-content-center">
-              <img :src="'/images/' + product.CA_DESCRIPTION.split(' ')[0] + '.png'" style="max-width: 100%;">
+              <img :src="'/images/' + product.CA_DESCRIPTION.split(' ')[0].toLowerCase() + '.jpg'" style="max-width: 100%;">
             </div>
-            <h2 class="mt-4 mb-3">{{ product.CA_DESCRIPTION }}</h2>
+            <h2 class="mt-4 mb-3" v-if="product.CA_DESCRIPTION">{{ product.CA_DESCRIPTION }}</h2>
 
             <div class="d-flex justify-content-between">
               <span class="price">$ {{ product.CA_COST | money }}</span>
@@ -74,5 +74,10 @@ export default {
   }
   .stock {
     font-size: 2rem;
+  }
+  img {
+    height: 400px;
+    object-fit: cover;
+    width: 100%;
   }
 </style>

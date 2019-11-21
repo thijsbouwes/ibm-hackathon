@@ -6,7 +6,7 @@
       </div>
 
       <div v-for="product in products" class="col-md-3 mb-4 product" @click="open(product)">
-        <img :src="'/images/' + product.CA_DESCRIPTION.split(' ')[0] + '.png'" style="max-width: 100%;">
+        <img :src="'/images/' + product.CA_DESCRIPTION.split(' ')[0].toLowerCase() + '.jpg'" style="max-width: 100%;">
         <h4 class="text-center mt-3 mb-0">{{ product.CA_DESCRIPTION }}</h4>
         <span class="d-block text-center price">$ {{ product.CA_COST | money }}</span>
       </div>
@@ -65,6 +65,9 @@ export default {
   .product {
     img {
       transition: transform .3s;
+      height: 200px;
+      object-fit: cover;
+      width: 100%;
     }
 
     &:hover {
